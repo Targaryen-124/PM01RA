@@ -8,13 +8,24 @@
     android:orientation="vertical"
     tools:context=".ActivityCreate">
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="267dp" />
+
+    <Button
+        android:id="@+id/btntake"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Tomar Foto"/>
+
     <EditText
         android:id="@+id/txtNombres"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
+        android:hint="Ingrese Nombres"
         android:inputType="text"
-        android:text="Name"
         tools:layout_editor_absoluteX="38dp"
         tools:layout_editor_absoluteY="52dp" />
 
@@ -23,28 +34,28 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:inputType="text"
-        android:text="Name" />
+        android:hint="Ingrese Apellidos"
+        android:inputType="text" />
 
     <EditText
         android:id="@+id/txtDireccion"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:inputType="text"
-        android:text="Name" />
+        android:hint="Ingrese Direccion"
+        android:inputType="text" />
 
     <EditText
         android:id="@+id/txtTelefono"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:inputType="text"
-        android:text="Name" />
+        android:hint="Ingrese Telefono"
+        android:inputType="text" />
 
     <Button
-        android:id="@+id/btnEnviar"
+        android:id="@+id/btnsavec"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Button" />
+        android:text="Guardar" />
 </LinearLayout>
