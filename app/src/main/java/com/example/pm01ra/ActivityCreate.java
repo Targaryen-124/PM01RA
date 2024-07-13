@@ -2,6 +2,7 @@ package com.example.pm01ra;
 
 import static android.content.ContentValues.TAG;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -23,6 +24,7 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -40,6 +42,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.pm01ra.Config.RAMethods;
 import com.example.pm01ra.Models.Personas;
+import com.google.android.material.snackbar.Snackbar;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -60,6 +63,7 @@ public class ActivityCreate extends AppCompatActivity {
     static final int REQUEST_IMAGE = 101;
     static final int ACCESS_CAMERA = 201;
     String currentPhotoPath;
+    CharSequence[] opciones;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +75,9 @@ public class ActivityCreate extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        opciones = new String[1];
+        opciones[0] = "OK";
 
         nombres = (EditText) findViewById(R.id.txtNombres);
         apellidos = (EditText) findViewById(R.id.txtApellidos);
@@ -91,7 +98,7 @@ public class ActivityCreate extends AppCompatActivity {
         btnsave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                SendDataCreate();
             }
         });
     }
@@ -193,10 +200,33 @@ public class ActivityCreate extends AppCompatActivity {
 
         JsonObjectRequest stringRequest = new JsonObjectRequest(Request.Method.POST, RAMethods.EndPointPOST, jsonObject, new Response.Listener<JSONObject>() {
             @Override
-            public void onResponse(JSONObject s) {
+            public void onResponse(JSONObject response) {
                 try {
-                    String msg = s.toString();
-                    Log.i(TAG,"onResponse" + msg);
+                    boolean isSuccess = response.getBoolean(getResources().getString(R.string.issuccess));
+                    String message = response.getString(getResources().getString(R.string.message));
+                    if(isSuccess) {
+                        Log.i(TAG, "Exito" + message);
+
+                        final AlertDialog.Builder alert = new AlertDialog.Builder(ActivityCreate.this);
+                        alert.setTitle("Ingresado con exito");
+                        alert.setIcon(R.mipmap.ic_launcher);
+                        alert.setItems(opciones, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i)
+                            {
+                                if(opciones[i].equals("OK")){
+
+                                }
+                            }
+                        });
+                        alert.show();
+
+                        Snackbar.make(ActivityCreate.this.getWindow().getDecorView().getRootView(),"Exito: " + message, Snackbar.LENGTH_LONG).show();
+                    }else{
+                        Log.i(TAG, "Fallo: " + message);
+                        Snackbar.make(ActivityCreate.this.getWindow().getDecorView().getRootView(), "Fallo: " + message, Snackbar.LENGTH_LONG).show();
+                    }
+                    Log.i(TAG, "onRespose" + response.toString());
                 }
                 catch (Exception ex) {
 
